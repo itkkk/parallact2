@@ -1,11 +1,24 @@
 import pandas as pd
+import statistics
 
 
-def load_bpi13(chain_len=3):
+def load_generic_dataset(path, chain_len=3, verbose=False, save_to_disk=False, filename=""):
+    dataset = pd.read_csv(path, index_col=0)
+    pd.set_option('display.max_columns', None)
+
+    return chain_dataset(dataset, chain_len, verbose, save_to_disk, filename)
+
+
+def load_bpi13(chain_len=3, verbose=False, save_to_disk=False, filename=""):
     """
     This function load and preprocess the csv file containing the bpi13 cases incidents dataset
 
     :param chain_len: the length of the generated activity chain
+    :param verbose: if True the method will print some dataset statistics
+    :param save_to_disk: if True the preprocessed dataset will be saved to disk
+    :param filename: the name of the file that will be written to disk
+
+
     :return bpi13_chained: a pandas dataframe containing bpi13 dataset preprocessed in order to represent each trace as
         a chain of chain_len activities. The dataframe contains three columns: "caseID", "activity_chain",
         "next_activity".
@@ -17,21 +30,27 @@ def load_bpi13(chain_len=3):
     bpi13["Activity"] = bpi13["Status"].astype(str) + " - " + bpi13["Sub Status"]
 
     # Seleziono le colonne che mi servono e le rinomino
-    bpi13 = bpi13[['SR Number', 'Change Date+Time', 'Activity']]
+    bpi13 = bpi13[['SR Number', 'Activity', 'Change Date+Time']]
     bpi13 = bpi13.rename(columns={'SR Number': 'CaseID', 'Change Date+Time': 'Timestamp'})
 
+    return chain_dataset(bpi13, chain_len, verbose, save_to_disk, filename)
+
+
+def chain_dataset(dataset, chain_len, verbose, save_to_disk, filename):
     # Raggruppo le righe con lo stesso caseID, i valori di timestamp e activity verranno raggruppati in liste
     # Es:  CaseID: 1-364285768, Timestamp: ['2010-03-31T15:59:42+01:00', ... '2012-05-11T00:26:15+01:00'],
     # Activity: ['Accepted - In Progress', ..., 'Completed - Closed'].
     # Il tutto sarà un nuovo dataframe che avrà come row index CaseID.
-    grouped = bpi13.groupby('CaseID').agg(lambda x: list(x))
+    grouped = dataset.groupby('CaseID').agg(lambda x: list(x))
 
-    bpi13_dicts = []
+    trace_lengths = []
+    dataset_dicts = []
     # Vado a creare i dizionari da inserire in bpi13_dicts, uso iterrows per iterare sulle righe del dataframe.
     # iterrows restituisce due valori: l' indice della riga (nel nostro caso il caseID) e la riga stessa
     for caseID, row in grouped.iterrows():
-        # timestamp_list = row[0]
-        activity_list = row[1]
+        # timestamp_list = row[1]
+        activity_list = row[0]
+        trace_lengths.append(activity_list.__len__())
 
         # Divido la activity list in n liste, ognuna con una lunghezza di chain_len.
         # Aggiungo alla lista bpi13_dicts un dizionario per ogni catena ottenuta dal trace. Il dizionario è composto da:
@@ -41,7 +60,7 @@ def load_bpi13(chain_len=3):
         #       < len(activity_list)) else "end") => l' attività successiva (se esiste),
         #       oppure "end" (se mi trovo a fine lista)
         for i in range((len(activity_list) + chain_len - 1) // chain_len):
-            bpi13_dicts.append({
+            dataset_dicts.append({
                 "caseID": caseID,
                 "activity_chain": activity_list[i * chain_len: (i + 1) * chain_len],
                 "next_activity": activity_list[(i + 1) * chain_len] if (((i + 1) * chain_len)
@@ -49,12 +68,19 @@ def load_bpi13(chain_len=3):
             })
 
     # Creo il dataframe da restituire in output
-    bpi13_chained = pd.DataFrame(bpi13_dicts)
+    dataset_chained = pd.DataFrame(dataset_dicts)
 
-    return bpi13_chained
+    if verbose:
+        print("Average trace length: " + str(statistics.mean(trace_lengths)))
+        print("standard deviation trace length: " + str(statistics.stdev(trace_lengths)))
+
+    if save_to_disk:
+        dataset_chained.to_csv(fr"datasets\processed\{filename}_chained.csv", index=False, header=True)
+
+    return dataset_chained
 
 
-def create_matrices(dataset):
+def create_matrices(dataset, save_to_disk=False, filename=""):
     """
     This function creates the parallact matrices (both features and target matrix).
 
@@ -69,7 +95,7 @@ def create_matrices(dataset):
        - 3_Queued_Awaiting_Assignment => which represents the transition from t2 to t3 executing
                                         Queued_Awaiting_Assignment action
        - 2_Queued_Awaiting Assignment => which represents the transition from t1 to t2 executing
-                                        ueued_Awaiting_Assignment action
+                                        Queued_Awaiting_Assignment action
        - 3_Accepted_In Progress => which represents the transition from t2 to t3 executing Accepted_In Progress action
     Considering the column order just described the two feature matrix will have two rows:
       - 1 1 1 0 0
@@ -84,7 +110,10 @@ def create_matrices(dataset):
      - 1 0
      - 0 1
 
+    :param save_to_disk: if True both the features and the targets matrix will be stored into a csv
     :param dataset: a pandas dataframe contains three columns: caseID", "activity_chain", "next_activity".
+    :param filename: the name of the file that will be written to disk
+
     :return:
       - features: a numpy array representing the features matrix just described
       - targets: a numpy array representing the target matrix just described
@@ -100,15 +129,19 @@ def create_matrices(dataset):
     for _, row in dataset.iterrows():
         feature_dict = {}
         for time_instant, activity in enumerate(row[1]):
-            feature_dict[str(time_instant+1) + "_" + activity.replace(" ", "_")] = 1
+            feature_dict[str(time_instant+1) + "_" + str(activity).replace(" ", "")] = 1
         features_dict_list.append(feature_dict)
 
-        target_dict_list.append({row[2].replace(" ", "_"): 1})
+        target_dict_list.append({str(row[2]).replace(" ", ""): 1})
 
     features_matrix = pd.DataFrame(features_dict_list).fillna(int(0)).astype(int)
     features = features_matrix.to_numpy()
 
     target_matrix = pd.DataFrame(target_dict_list).fillna(0).astype(int)
     targets = target_matrix.to_numpy()
+
+    if save_to_disk:
+        features_matrix.to_csv(fr"datasets\processed\{filename}_features_matrix.csv", index=False, header=True)
+        target_matrix.to_csv(fr"datasets\processed\{filename}_targets_matrix.csv", index=False, header=True)
 
     return features, targets, list(features_matrix.columns), list(target_matrix.columns)
