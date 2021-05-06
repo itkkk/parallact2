@@ -30,7 +30,7 @@ def execute_deep(x_train, x_test, y_train, y_test):
         x_train, y_train,
         epochs=10,
         validation_data=(x_val, y_val),
-        verbose=False
+        verbose=True
     )
 
     predictions = model.predict(x_test)
@@ -64,6 +64,23 @@ def execute_ml(x_train, x_test, y_train, y_test):
     print(f"        Test accuracy: {accuracy_score(y_test, predictions_test)}")
 
 
+from sklearn.decomposition import NMF
+def execute_ml2(x_train, x_test, y_train, y_test):
+    nmf = NMF(n_components=12, init='random', random_state=0)
+
+
+    tree = OneVsRestClassifier(DecisionTreeClassifier())
+
+    pipe = Pipeline(steps=[('nmf', nmf), ('tree', tree)])
+    pipe.fit(x_train, y_train)
+    predictions_train = pipe.predict(x_train)
+    predictions_test = pipe.predict(x_test)
+
+    # https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
+    print(f"        Train accuracy: {accuracy_score(y_train, predictions_train)}")
+    print(f"        Test accuracy: {accuracy_score(y_test, predictions_test)}")
+
+
 def bpi13():
     print("bpi13 ")
     bpi13_dataset = dataset.load_bpi13(3, verbose=True, save_to_disk=True, filename="bpi13")
@@ -84,17 +101,17 @@ def bpi13():
 def bpi12():
     print("bpi12")
     bpi12_dataset = dataset.load_generic_dataset("datasets/vinc/bpi_12_w.csv", save_to_disk=True, verbose=True,
-                                                 filename="bpi12")
+                                                 filename="bpi12", time_format="%Y-%m-%d %H:%M:%S")
     features, targets, features_name, targets_name = dataset.create_matrices(bpi12_dataset, save_to_disk=True,
                                                                              filename="bpi12")
     print("Dataset loaded and preprocessed")
 
     print("    bpi12 ml:")
     x_train, x_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=3)
-    execute_ml(x_train, x_test, y_train, y_test)
+    execute_ml2(x_train, x_test, y_train, y_test)
 
-    print("    bpi12 mlp:")
-    execute_deep(x_train, x_test, y_train, y_test)
+    #print("    bpi12 mlp:")
+    #execute_deep(x_train, x_test, y_train, y_test)
 
     print("")
 
@@ -102,7 +119,7 @@ def bpi12():
 def helpdesk():
     print("helpdesk")
     helpdesk_dataset = dataset.load_generic_dataset("datasets/vinc/helpdesk.csv", save_to_disk=True, verbose=True,
-                                                    filename="helpdesk")
+                                                    filename="helpdesk", time_format="%Y-%m-%d %H:%M:%S")
 
     features, targets, features_name, targets_name = dataset.create_matrices(helpdesk_dataset, save_to_disk=True,
                                                                              filename="helpdesk")
@@ -119,6 +136,6 @@ def helpdesk():
 
 
 if __name__ == '__main__':
-    bpi13()
+    #bpi13()
     bpi12()
-    helpdesk()
+    #helpdesk()
