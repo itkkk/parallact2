@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import statistics
 from datetime import datetime
 
@@ -173,12 +174,17 @@ def create_matrices(dataset, save_to_disk=False, filename="", consider_time_feat
     # sfrutto una lista di dizionari per creare il dataframe contente la matrice delle feature.
     # ogni dizionario presente nella lista avrà come chiave il nome della colonna
     # (composto da posizione temporale + attività eseguita) e come valore 1.
+    caseID_dict_list = []
     features_dict_list = []
     time_dict_list = []
     target_dict_list = []
     for _, row in dataset.iterrows():
+        caseID_dict = {}
         feature_dict = {}
         time_dict = {}
+
+        caseID_dict["caseID"] = row[0]
+
         for time_instant, activity in enumerate(row[1]):
             feature_dict[str(time_instant + 1) + "_" + str(activity).replace(" ", "")] = 1
 
@@ -188,20 +194,56 @@ def create_matrices(dataset, save_to_disk=False, filename="", consider_time_feat
             for time_instant, timestamp in enumerate(row[4]):
                 time_dict["time_local_diff_" + str(time_instant + 1)] = timestamp
 
+        caseID_dict_list.append(caseID_dict)
         features_dict_list.append(feature_dict)
         time_dict_list.append(time_dict)
         target_dict_list.append({str(row[2]).replace(" ", ""): 1})
 
+    caseID_matrix = pd.DataFrame(caseID_dict_list).fillna(int(0)).astype(int)
     features_matrix = pd.DataFrame(features_dict_list).fillna(int(0))  # .astype(int)
     time_matrix = pd.DataFrame(time_dict_list).fillna(int(0))
-    features_matrix = features_matrix.join(time_matrix)
-    features = features_matrix.to_numpy()
+
+    final_matrix = caseID_matrix.join(features_matrix)
+    final_matrix = final_matrix.join(time_matrix)
+    features = final_matrix.to_numpy()
 
     target_matrix = pd.DataFrame(target_dict_list).fillna(0)  # .astype(int)
     targets = target_matrix.to_numpy()
 
     if save_to_disk:
-        features_matrix.to_csv(fr"..\datasets\processed\{filename}_features_matrix.csv", index=False, header=True)
+        final_matrix.to_csv(fr"..\datasets\processed\{filename}_features_matrix.csv", index=False, header=True)
         target_matrix.to_csv(fr"..\datasets\processed\{filename}_targets_matrix.csv", index=False, header=True)
 
     return features, targets, list(features_matrix.columns), list(target_matrix.columns)
+
+
+def createLSTMMatrices(dataset):
+    LSTMFeaturesDict = {}
+
+    max_size = 0
+    for row in dataset:
+        if row[0] in LSTMFeaturesDict:
+            features_list = LSTMFeaturesDict[row[0]]
+            features_list.append(list(row[1:]))
+            LSTMFeaturesDict[row[0]] = features_list
+            max_size = features_list.__len__() if max_size < features_list.__len__() else max_size
+        else:
+            features_list = [list(row[1:])]
+            LSTMFeaturesDict[row[0]] = features_list
+            max_size = features_list.__len__() if max_size < features_list.__len__() else max_size
+
+    # dataset.shape[1]-1 perchè non considero la colonna caseID
+    LSTMFeaturesMatrix = np.zeros((dataset.shape[0], max_size, dataset.shape[1] - 1))
+
+    i = 0
+    for key in LSTMFeaturesDict.keys():
+        partialTraces = LSTMFeaturesDict[key]
+        LSTMFeaturesRow = np.zeros((max_size, dataset.shape[1] - 1))
+        for partialTrace in partialTraces:
+            LSTMFeaturesRow = np.delete(LSTMFeaturesRow, 0, 0)
+            LSTMFeaturesRow = np.vstack([LSTMFeaturesRow, np.zeros((dataset.shape[1] - 1))])
+            LSTMFeaturesRow[max_size-1] = partialTrace
+            LSTMFeaturesMatrix[i] = LSTMFeaturesRow
+            i += 1
+
+    return LSTMFeaturesMatrix
