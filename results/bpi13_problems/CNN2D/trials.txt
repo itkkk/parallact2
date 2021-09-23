@@ -1,0 +1,165 @@
+
+Fold: 0
+Hyperopt trials
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+0,0.979632,1.000000,0,0,0,0,0,0,13.882365
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+1,1.025201,1.000000,0,1,0,0,0,1,7.937098
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+2,1.052472,1.000000,0,0,0,0,1,1,5.445308
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+3,0.931012,0.000000,0,0,1,0,0,0,7.066976
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+4,1.111923,1.000000,0,1,1,1,1,1,7.126672
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+5,1.109593,1.000000,0,1,0,0,1,1,7.476911
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+6,1.059299,0.000000,0,0,1,0,1,1,8.600583
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+7,0.905035,0.000000,0,1,0,1,1,0,9.471360
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+8,1.263851,0.000000,0,0,1,0,1,1,7.364516
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+9,1.001256,0.000000,0,0,1,1,0,0,7.463392
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+10,1.081970,0.000000,0,1,1,0,0,1,8.709887
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+11,1.039429,1.000000,0,0,0,1,1,1,11.538467
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+12,0.942816,1.000000,0,1,1,0,1,0,8.232128
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+13,0.910171,1.000000,0,0,1,0,0,0,6.331127
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+14,0.954731,0.000000,0,1,0,1,1,1,8.247352
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+15,1.217483,1.000000,0,0,0,0,1,1,7.468544
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+16,0.960949,0.000000,0,0,1,0,1,0,7.557492
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+17,1.001154,0.000000,0,1,0,0,1,0,8.277980
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+18,0.818091,1.000000,0,1,0,0,0,0,5.960205
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+19,0.888672,0.000000,0,1,0,1,0,1,6.530136
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+20,0.846934,1.000000,0,1,0,1,0,0,6.949213
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+21,0.734466,1.000000,0,1,0,1,0,0,4.958511
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+22,1.063888,1.000000,0,1,0,1,0,0,6.489355
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+23,0.826844,1.000000,0,1,0,1,0,0,5.701020
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+24,0.738346,1.000000,0,1,0,1,0,0,6.736341
+
+Best parameters:{'batch_size': 256, 'convolution1': 64, 'convolution2': 32, 'kernel_size1': (4, 4), 'kernel_size2': (2, 2), 'learning_rate_init': 0.009979920445669607, 'pool_size': (2, 2)}
+
+Fold: 1
+Hyperopt trials
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+0,0.743301,0.000000,0,1,0,1,0,0,6.607498
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+1,1.010189,1.000000,0,0,1,1,1,1,7.731191
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+2,0.920765,1.000000,0,0,1,0,1,0,5.828876
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+3,0.795347,1.000000,0,0,0,1,1,0,6.379504
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+4,0.966645,0.000000,0,0,0,0,1,0,13.994833
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+5,0.961662,1.000000,0,0,0,1,1,1,6.328435
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+6,0.845219,1.000000,0,0,0,1,0,1,7.044037
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+7,0.859651,0.000000,0,1,0,0,0,0,19.505088
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+8,0.998344,1.000000,0,0,1,0,1,1,8.571815
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+9,1.027531,1.000000,0,1,1,1,0,1,6.313616
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+10,0.977913,1.000000,0,1,0,0,1,1,11.073003
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+11,0.940311,0.000000,0,1,1,0,1,1,9.469350
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+12,1.020869,0.000000,0,0,1,0,1,1,7.077087
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+13,1.022685,1.000000,0,0,0,1,1,1,5.893226
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+14,1.008090,0.000000,0,1,0,1,0,0,6.892382
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+15,0.893132,0.000000,0,0,0,1,1,0,6.526007
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+16,1.003234,1.000000,0,1,0,0,1,1,8.343829
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+17,0.933900,1.000000,0,0,1,1,1,1,5.395813
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+18,2.238838,0.000000,0,0,0,0,0,0,4.694391
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+19,0.932401,0.000000,0,1,0,0,0,0,8.229601
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+20,0.775275,0.000000,0,1,0,1,0,0,9.362641
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+21,0.732048,0.000000,0,1,0,1,0,0,7.802720
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+22,0.751049,0.000000,0,1,0,1,0,0,6.449066
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+23,0.807017,0.000000,0,1,0,1,0,0,7.279162
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+24,0.789357,0.000000,0,1,0,1,0,0,6.637557
+
+Best parameters:{'batch_size': 128, 'convolution1': 64, 'convolution2': 32, 'kernel_size1': (4, 4), 'kernel_size2': (2, 2), 'learning_rate_init': 0.00984526675679137, 'pool_size': (2, 2)}
+
+Fold: 2
+Hyperopt trials
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+0,1.109989,0.000000,0,0,0,0,0,1,31.894556
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+1,0.867863,1.000000,0,0,0,0,1,0,5.569150
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+2,0.851389,1.000000,0,0,0,0,1,0,11.602047
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+3,0.908585,0.000000,0,0,1,1,0,1,9.729036
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+4,1.013299,0.000000,0,1,0,0,0,1,30.672832
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+5,2.063095,1.000000,0,0,0,1,0,0,2.895746
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+6,0.934161,1.000000,0,0,1,1,0,0,5.450157
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+7,0.879955,1.000000,0,1,0,0,1,1,7.282882
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+8,0.851486,1.000000,0,1,1,0,1,0,13.432804
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+9,1.111180,1.000000,0,1,0,0,0,1,6.613666
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+10,0.914369,0.000000,0,1,1,1,0,0,7.353362
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+11,0.833249,0.000000,0,1,0,0,1,0,6.192437
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+12,0.763124,1.000000,0,0,1,1,1,0,7.076341
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+13,0.924202,1.000000,0,1,1,0,1,1,8.516939
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+14,0.859307,1.000000,0,0,0,0,0,0,6.646127
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+15,0.690228,0.000000,0,1,0,1,1,0,7.253584
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+16,0.837338,1.000000,0,0,1,1,1,1,6.248627
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+17,0.767696,0.000000,0,1,0,0,0,1,5.940359
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+18,1.037959,0.000000,0,0,0,1,1,0,9.562706
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+19,0.896391,1.000000,0,1,1,0,1,0,7.059308
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+20,0.672717,0.000000,0,1,1,1,1,0,7.621975
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+21,0.692270,0.000000,0,1,1,1,1,0,6.296676
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+22,0.640648,0.000000,0,1,1,1,1,0,6.866302
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+23,0.686945,0.000000,0,1,1,1,1,0,6.164575
+tid, loss, learning_rate, batch_size, cells, LSTMLayers, train_time
+24,0.649632,0.000000,0,1,1,1,1,0,7.824599
+
+Best parameters:{'batch_size': 128, 'convolution1': 64, 'convolution2': 64, 'kernel_size1': (4, 4), 'kernel_size2': (4, 4), 'learning_rate_init': 0.008399597076104177, 'pool_size': (2, 2)}
